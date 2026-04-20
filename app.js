@@ -20,9 +20,13 @@ const firebaseConfig = {
   projectId: "ideasync-4748d"
 };
 
+// ✅ ONLY ONE INITIALIZATION
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+// ✅ EXPORT (so other files can use)
+export { auth, db };
 
 // -------- AUTH --------
 window.register = async () => {
