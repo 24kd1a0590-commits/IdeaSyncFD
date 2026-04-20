@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IdeaSync | Build Together</title>
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDf_QmGlx6OrOCVv84our2ipdJVgDEFGlw",
+  authDomain: "ideasync-4748d.firebaseapp.com",
+  projectId: "ideasync-4748d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// make functions global (important)
+window.register = function() {
+  const email = document.getElementById("email")?.value;
+  const password = document.getElementById("password")?.value;
+
+  if (!email || !password) {
+    alert("Enter email & password");
+    return;
+  }
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => alert("Registered Successfully"))
+    .catch(err => alert(err.message));
+};
+
+window.login = function() {
+  const email = document.getElementById("email")?.value;
+  const password = document.getElementById("password")?.value;
+
+  if (!email || !password) {
+    alert("Enter email & password");
+    return;
+  }
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => alert("Login Successful"))
+    .catch(err => alert(err.message));
+};
+</script>
+</head>
+<script>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDf_QmGlx6OrOCVv84our2ipdJVgDEFGlw",
+  authDomain: "ideasync-4748d.firebaseapp.com",
+  projectId: "ideasync-4748d"
+}
+function register() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      alert("User Registered!");
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}
+function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      alert("Login Successful!");
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+</script>
+<body class="bg-gray-950 text-white font-sans">
+
+<!-- NAVBAR -->
+<nav class="flex justify-between items-center px-8 py-4 border-b border-gray-800">
+    <h1 class="text-2xl font-bold text-blue-400">IdeaSync</h1>
+    <div>
+        <a href="login.html" class="px-4 py-2 hover:text-blue-400">Login</a>
+<a href="register.html" class="bg-blue-500 px-4 py-2 rounded-lg ml-3">Get Started</a>
+        <a href="register.php" class="bg-blue-500 px-4 py-2 rounded-lg ml-3 hover:bg-blue-600 transition">
+            Get Started
+        </a>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="text-center py-20 px-6">
+    <h2 class="text-5xl font-bold leading-tight">
+        Turn Ideas into <span class="text-blue-400">Real Teams</span>
+    </h2>
+
+    <p class="mt-6 text-gray-400 text-lg max-w-2xl mx-auto">
+        The central collaboration portal connecting technical builders with visionary ideas.
+    </p>
+
+    <div class="mt-8">
+        <a href="register.php" class="bg-blue-500 px-6 py-3 rounded-lg text-lg hover:bg-blue-600 transition">
+            Start Building 🚀
+        </a>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="grid md:grid-cols-3 gap-8 px-10 py-16">
+
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+        <h3 class="text-xl font-semibold text-blue-400">💡 Post Ideas</h3>
+        <p class="mt-3 text-gray-400">
+            Share your innovative ideas and attract the right talent.
+        </p>
+    </div>
+
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+        <h3 class="text-xl font-semibold text-blue-400">🤝 Find Teammates</h3>
+        <p class="mt-3 text-gray-400">
+            Discover people with matching skills and interests.
+        </p>
+    </div>
+
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+        <h3 class="text-xl font-semibold text-blue-400">🔒 Safe Collaboration</h3>
+        <p class="mt-3 text-gray-400">
+            Protected idea sharing with trust and control systems.
+        </p>
+    </div>
+
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="text-center py-16 px-6 bg-gray-900">
+    <h2 class="text-3xl font-bold mb-10">How It Works</h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+        <div>
+            <h3 class="text-xl text-blue-400 font-semibold">1. Post Idea</h3>
+            <p class="text-gray-400 mt-2">Describe your vision and requirements.</p>
+        </div>
+
+        <div>
+            <h3 class="text-xl text-blue-400 font-semibold">2. Get Matches</h3>
+            <p class="text-gray-400 mt-2">System finds compatible teammates.</p>
+        </div>
+
+        <div>
+            <h3 class="text-xl text-blue-400 font-semibold">3. Build Together</h3>
+            <p class="text-gray-400 mt-2">Collaborate and bring ideas to life.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="text-center py-20">
+    <h2 class="text-3xl font-bold">Ready to build something amazing?</h2>
+
+    <a href="register.php" class="mt-6 inline-block bg-blue-500 px-6 py-3 rounded-lg text-lg hover:bg-blue-600 transition">
+        Join IdeaSync
+    </a>
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center py-6 border-t border-gray-800 text-gray-500">
+    © 2026 IdeaSync. Built for innovators.
+</footer>
+
+</body>
+</html>
