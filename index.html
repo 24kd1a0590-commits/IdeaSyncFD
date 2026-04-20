@@ -143,10 +143,7 @@ Start Building 🚀
 <footer class="text-center py-6 border-t border-gray-800 text-gray-500">
     © 2026 IdeaSync. Built for innovators.
 </footer>
-<a href="#" onclick="startBuilding()" 
-class="bg-blue-500 px-6 py-3 rounded-lg text-white">
-Start Building 🚀
-</a>
+
 
 <script type="module">
 import { auth } from "./app.js"; 
@@ -170,6 +167,32 @@ window.startBuilding = function () {
             window.location.href = "login.html";
         }
     });
+
+};
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDf_QmGlx6OrOCVv84our2ipdJVgDEFGlw",
+  authDomain: "ideasync-4748d.firebaseapp.com",
+  projectId: "ideasync-4748d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// 🔥 MAIN LOGIC
+window.startBuilding = function () {
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.location.href = "dashboard.html";
+    } else {
+      window.location.href = "login.html";
+    }
+  });
 
 };
 </script>
