@@ -1,22 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | IdeaSync</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body onload="protectPage(); loadIdeas();">
 
-<h2>Dashboard 🚀</h2>
+<body class="bg-gray-950 text-white">
 
-<button onclick="logout()">Logout</button>
+<!-- NAVBAR -->
+<nav class="flex justify-between items-center px-8 py-4 border-b border-gray-800">
+    <h1 class="text-2xl font-bold text-blue-400">IdeaSync</h1>
 
-<h3>Post Idea</h3>
-<input id="ideaTitle" placeholder="Idea Title"><br><br>
-<textarea id="ideaDesc" placeholder="Describe your idea"></textarea><br><br>
-<button onclick="postIdea()">Post</button>
+    <button onclick="logout()" 
+        class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition">
+        Logout
+    </button>
+</nav>
 
-<h3>Ideas Feed</h3>
-<div id="ideas"></div>
+<!-- MAIN -->
+<div class="max-w-6xl mx-auto px-6 py-8">
 
-<script src="app.js" type="module"></script>
+    <!-- WELCOME -->
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold">Welcome 👋</h2>
+        <p class="text-gray-400">What do you want to build today?</p>
+    </div>
+
+    <!-- POST IDEA -->
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg mb-10">
+        <h3 class="text-xl font-semibold text-blue-400 mb-4">Post Your Idea 💡</h3>
+
+        <input id="ideaTitle"
+            class="w-full p-3 mb-3 rounded-lg bg-gray-800 border border-gray-700"
+            placeholder="Idea Title">
+
+        <textarea id="ideaDesc"
+            class="w-full p-3 mb-3 rounded-lg bg-gray-800 border border-gray-700"
+            placeholder="Describe your idea..."></textarea>
+
+        <button onclick="postIdea()"
+            class="bg-blue-500 px-6 py-2 rounded-lg hover:bg-blue-600 transition">
+            Post Idea 🚀
+        </button>
+    </div>
+
+    <!-- IDEA FEED -->
+    <div>
+        <h3 class="text-2xl font-bold mb-4">Explore Ideas 🔍</h3>
+
+        <div id="ideas" class="space-y-4">
+            <!-- Ideas will load here -->
+        </div>
+    </div>
+
+</div>
+
+<!-- FIREBASE LOGIC -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDf_QmGlx6OrOCVv84our2ipdJVgDEFGlw",
+  authDomain: "ideasync-4748d.firebaseapp.com",
+  projectId: "ideasync-4748d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// 🔒 Protect page
+onAuthStateChanged(auth, user => {
+    if (!user) {
+        window.location.href = "login.html";
+    } else {
+        loadIdeas();
+    }
+});
+
+// 🚪 Logout
+window.logout = async function() {
+    await signOut(auth);
+    window.location.href = "index.html";
+};
+
+// 🚀 Post Idea
+window.postIdea = async function() {
+    const title = document.getElementById("ideaTitle").value;
+    const desc = document.getElementById("ideaDesc").value;
+
+    if (!title || !desc) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    await addDoc(collection(db, "ideas"), {
+        title,
+        desc,
+        user: auth.currentUser.email,
+        createdAt: new Date()
+    });
+
+    alert("Idea Posted 🚀");
+    loadIdeas();
+};
+
+// 📥 Load Ideas
+async function loadIdeas() {
+    const container = document.getElementById("ideas");
+    container.innerHTML = "";
+
+    const q = query(collection(db, "ideas"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+
+    snapshot.forEach(doc => {
+        const data = doc.data();
+
+        container.innerHTML += `
+            <div class="bg-gray-900 p-5 rounded-xl shadow-md hover:scale-[1.02] transition">
+                <h3 class="text-xl font-semibold text-blue-400">${data.title}</h3>
+                <p class="text-gray-300 mt-2">${data.desc}</p>
+                <p class="text-gray-500 text-sm mt-3">by ${data.user}</p>
+            </div>
+        `;
+    });
+}
+</script>
+
 </body>
 </html>
