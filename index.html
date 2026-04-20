@@ -144,32 +144,6 @@ Start Building 🚀
     © 2026 IdeaSync. Built for innovators.
 </footer>
 
-
-<script type="module">
-import { auth } from "./app.js"; 
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-window.startBuilding = function () {
-
-    // 🔥 instant check (NO Firebase init here)
-    const user = auth.currentUser;
-
-    if (user) {
-        window.location.href = "dashboard.html";
-        return;
-    }
-
-    // 🔥 fallback check (safe)
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            window.location.href = "dashboard.html";
-        } else {
-            window.location.href = "login.html";
-        }
-    });
-
-};
-</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -183,9 +157,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// 🔥 MAIN LOGIC
+// 🔥 THIS WAS MISSING
 window.startBuilding = function () {
-
   onAuthStateChanged(auth, (user) => {
     if (user) {
       window.location.href = "dashboard.html";
@@ -193,7 +166,6 @@ window.startBuilding = function () {
       window.location.href = "login.html";
     }
   });
-
 };
 </script>
 
