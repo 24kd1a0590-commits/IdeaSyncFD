@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding | IdeaSync</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center min-h-screen">
+
+<!-- MAIN CARD -->
+<div class="bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-lg">
+
+    <!-- HEADER -->
+    <h2 class="text-3xl font-bold text-center text-blue-400">
+        Tell us about you ✨
+    </h2>
+    <p class="text-gray-400 text-center mt-2">
+        This helps us connect you with the right people
+    </p>
+
+    <!-- ROLE SELECTION -->
+    <div class="mt-6">
+        <p class="text-gray-300 mb-3">What describes you best?</p>
+
+        <div class="grid grid-cols-3 gap-3">
+            <button onclick="selectRole(this, 'Idea Owner')" class="role-btn">💡 Idea Owner</button>
+            <button onclick="selectRole(this, 'Developer')" class="role-btn">💻 Developer</button>
+            <button onclick="selectRole(this, 'Both')" class="role-btn">🔥 Both</button>
+        </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="mt-6">
+        <p class="text-gray-300 mb-2">Your Skills</p>
+
+        <input id="skills"
+            class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="e.g. React, AI, UI Design">
+    </div>
+
+    <!-- BUTTON -->
+    <button onclick="saveOnboarding()"
+        class="mt-6 w-full bg-blue-500 hover:bg-blue-600 transition p-3 rounded-lg font-semibold">
+        Continue 🚀
+    </button>
+
+</div>
+
+<!-- STYLES -->
+<style>
+.role-btn {
+    background: #1f2937;
+    padding: 12px;
+    border-radius: 10px;
+    color: white;
+    border: 1px solid #374151;
+    transition: 0.3s;
+}
+.role-btn:hover {
+    background: #2563eb;
+}
+.selected {
+    background: #2563eb !important;
+}
+</style>
+
+<!-- FIREBASE LOGIC -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDf_QmGlx6OrOCVv84our2ipdJVgDEFGlw",
+  authDomain: "ideasync-4748d.firebaseapp.com",
+  projectId: "ideasync-4748d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let selectedRole = "";
+
+// role select UI
+window.selectRole = function(btn, role) {
+    selectedRole = role;
+
+    document.querySelectorAll(".role-btn").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+};
+
+// save onboarding
+window.saveOnboarding = async function () {
+    const skills = document.getElementById("skills").value;
+
+    if (!selectedRole) {
+        alert("Please select your role");
+        return;
+    }
+
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
+        role: selectedRole,
+        skills: skills,
+        createdAt: new Date()
+    });
+
+    window.location.href = "dashboard.html";
+};
+</script>
+
+</body>
+</html>

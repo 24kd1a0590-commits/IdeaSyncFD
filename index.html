@@ -50,42 +50,6 @@ window.login = function() {
 };
 </script>
 </head>
-<script>
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDf_QmGlx6OrOCVv84our2ipdJVgDEFGlw",
-  authDomain: "ideasync-4748d.firebaseapp.com",
-  projectId: "ideasync-4748d"
-}
-function register() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      alert("User Registered!");
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
-}
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      alert("Login Successful!");
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
-}
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-</script>
 <body class="bg-gray-950 text-white font-sans">
 
 <!-- NAVBAR -->
@@ -94,9 +58,6 @@ const auth = getAuth(app);
     <div>
         <a href="login.html" class="px-4 py-2 hover:text-blue-400">Login</a>
 <a href="register.html" class="bg-blue-500 px-4 py-2 rounded-lg ml-3">Get Started</a>
-        <a href="register.php" class="bg-blue-500 px-4 py-2 rounded-lg ml-3 hover:bg-blue-600 transition">
-            Get Started
-        </a>
     </div>
 </nav>
 

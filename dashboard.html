@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+</head>
+<body onload="protectPage(); loadIdeas();">
+
+<h2>Dashboard 🚀</h2>
+
+<button onclick="logout()">Logout</button>
+
+<h3>Post Idea</h3>
+<input id="ideaTitle" placeholder="Idea Title"><br><br>
+<textarea id="ideaDesc" placeholder="Describe your idea"></textarea><br><br>
+<button onclick="postIdea()">Post</button>
+
+<h3>Ideas Feed</h3>
+<div id="ideas"></div>
+
+<script src="app.js" type="module"></script>
+</body>
+</html>
