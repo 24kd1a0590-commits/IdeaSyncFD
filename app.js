@@ -118,3 +118,6 @@ window.protectPage = () => {
     }
   });
 };
+window.goToPostPage = function() {
+  window.location.href = "post.html";
+};

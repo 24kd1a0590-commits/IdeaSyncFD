@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Explore Ideas</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "ideasync-4748d.firebaseapp.com",
+  projectId: "ideasync-4748d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function loadIdeas() {
+  const querySnapshot = await getDocs(collection(db, "ideas"));
+  const container = document.getElementById("ideas");
+
+  container.innerHTML = "";
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+
+    container.innerHTML += `
+      <div class="bg-gray-900 p-6 rounded-xl shadow">
+        <h2 class="text-xl text-blue-400 font-bold">${data.title}</h2>
+        <p class="text-gray-300 mt-2">${data.description}</p>
+        <p class="text-sm text-gray-500 mt-2">Tech: ${data.tech || "N/A"}</p>
+        <p class="text-sm text-gray-500">Team: ${data.team || "N/A"}</p>
+      </div>
+    `;
+  });
+}
+
+window.onload = loadIdeas;
+</script>
+</head>
+
+<body class="bg-gray-950 text-white p-10">
+
+<h1 class="text-3xl mb-6 text-blue-400">Explore Ideas 🚀</h1>
+
+<div id="ideas" class="grid md:grid-cols-3 gap-6"></div>
+
+</body>
+</html>

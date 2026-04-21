@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post Idea | IdeaSync</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDf_QmGlx6OrOCVv84our2ipdJVgDEFGlw",
+  authDomain: "ideasync-4748d.firebaseapp.com",
+  projectId: "ideasync-4748d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.submitIdea = async function () {
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const tech = document.getElementById("tech").value;
+  const team = document.getElementById("team").value;
+
+  if (!title || !description) {
+    alert("Please fill required fields");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "ideas"), {
+      title,
+      description,
+      tech,
+      team,
+      createdAt: new Date()
+    });
+
+    alert("Idea Posted Successfully 🚀");
+    window.location.href = "explore.html";
+
+  }catch (error) {
+  console.error("FULL ERROR:", error);
+  alert(error.message);
+}
+};
+</script>
+</head>
+
+<body class="bg-gray-950 text-white">
+
+<div class="max-w-3xl mx-auto py-16 px-6">
+
+<h1 class="text-3xl font-bold text-blue-400 mb-8 text-center">
+Post Your Idea 💡
+</h1>
+
+<div class="bg-gray-900 p-8 rounded-2xl shadow-lg space-y-6">
+
+<input id="title" type="text" placeholder="Idea Title"
+class="w-full p-3 rounded bg-gray-800"/>
+
+<textarea id="description" placeholder="Describe your idea..."
+class="w-full p-3 rounded bg-gray-800 h-32"></textarea>
+
+<input id="tech" type="text" placeholder="Tech Stack (e.g., AI, Web, App)"
+class="w-full p-3 rounded bg-gray-800"/>
+
+<input id="team" type="text" placeholder="Team Requirements (e.g., 2 Developers, 1 Designer)"
+class="w-full p-3 rounded bg-gray-800"/>
+
+<button onclick="submitIdea()"
+class="w-full bg-blue-500 py-3 rounded-lg hover:bg-blue-600">
+Submit Idea 🚀
+</button>
+
+</div>
+
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDf_QmGlx6OrOCVv84our2ipdJVgDEFGlw",
+  authDomain: "ideasync-4748d.firebaseapp.com",
+  projectId: "ideasync-4748d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ✅ MAKE BUTTON WORK
+window.submitIdea = async function () {
+  console.log("Button clicked"); // debug
+
+  const title = document.getElementById("title").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const tech = document.getElementById("tech").value.trim();
+  const team = document.getElementById("team").value.trim();
+
+  if (!title || !description) {
+    alert("Please fill required fields");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "ideas"), {
+      title,
+      description,
+      tech,
+      team,
+      createdAt: new Date()
+    });
+
+    alert("Idea Posted Successfully 🚀");
+
+    // optional redirect
+    window.location.href = "explore.html";
+
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
+};
+</script>
+</body>
+</html>
