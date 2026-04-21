@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Find Teammates | IdeaSync</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDf_QmGlx6OrOCVv84our2ipdJVgDEFGlw",
+  authDomain: "ideasync-4748d.firebaseapp.com",
+  projectId: "ideasync-4748d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// 🔥 Load profiles from Firestore
+async function loadProfiles() {
+  const container = document.getElementById("profiles");
+
+  try {
+    const snapshot = await getDocs(collection(db, "users"));
+
+    if (snapshot.empty) {
+      container.innerHTML = "<p class='text-gray-400 text-center'>No teammates found</p>";
+      return;
+    }
+
+    container.innerHTML = "";
+
+    snapshot.forEach((doc) => {
+      const user = doc.data();
+
+      container.innerHTML += `
+        <div class="bg-gray-900 p-6 rounded-2xl shadow-lg hover:scale-105 transition">
+
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center text-xl font-bold">
+              ${user.name ? user.name[0] : "U"}
+            </div>
+
+            <div>
+              <h2 class="text-lg font-bold text-blue-400">${user.name || "Anonymous"}</h2>
+              <p class="text-sm text-gray-400">${user.experience || "Beginner"}</p>
+            </div>
+          </div>
+
+          <p class="mt-4 text-gray-300">${user.bio || "No bio provided"}</p>
+
+          <div class="mt-4">
+            <p class="text-sm text-gray-400">Skills</p>
+            <p class="text-white">${user.skills || "N/A"}</p>
+          </div>
+
+          <button class="mt-5 w-full bg-blue-500 py-2 rounded-lg hover:bg-blue-600">
+            Connect 🤝
+          </button>
+
+        </div>
+      `;
+    });
+
+  } catch (error) {
+    console.error(error);
+    container.innerHTML = "<p class='text-red-400'>Error loading profiles</p>";
+  }
+}
+
+window.onload = loadProfiles;
+</script>
+</head>
+
+<body class="bg-gray-950 text-white">
+
+<!-- HEADER -->
+<div class="text-center py-10">
+  <h1 class="text-4xl font-bold text-blue-400">Find Teammates 🤝</h1>
+  <p class="text-gray-400 mt-2">Connect with skilled builders</p>
+</div>
+
+<!-- PROFILES GRID -->
+<div id="profiles" class="grid md:grid-cols-3 gap-8 px-10 pb-10"></div>
+
+</body>
+</html>
