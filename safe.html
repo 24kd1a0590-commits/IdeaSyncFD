@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safe Collaboration | IdeaSync</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-950 text-white font-sans">
+
+<!-- NAVBAR -->
+<nav class="flex justify-between items-center px-8 py-4 border-b border-gray-800">
+    <h1 class="text-2xl font-bold text-blue-400">IdeaSync</h1>
+
+    <button onclick="goBack()" 
+    class="bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600">
+        Back
+    </button>
+</nav>
+
+<!-- HEADER -->
+<section class="text-center py-16 px-6">
+    <h2 class="text-4xl font-bold">
+        🔒 Safe Collaboration
+    </h2>
+    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+        Your ideas are valuable. IdeaSync ensures secure sharing, trusted teammates, and controlled access.
+    </p>
+</section>
+
+<!-- FEATURES -->
+<section class="grid md:grid-cols-3 gap-8 px-10 pb-16">
+
+    <div class="bg-gray-900 p-6 rounded-xl">
+        <h3 class="text-xl text-blue-400 font-semibold">🔐 Privacy Control</h3>
+        <p class="text-gray-400 mt-2">
+            Choose who can view your idea — public, private, or team-only.
+        </p>
+    </div>
+
+    <div class="bg-gray-900 p-6 rounded-xl">
+        <h3 class="text-xl text-blue-400 font-semibold">👥 Verified Users</h3>
+        <p class="text-gray-400 mt-2">
+            Collaborate only with authenticated and trusted members.
+        </p>
+    </div>
+
+    <div class="bg-gray-900 p-6 rounded-xl">
+        <h3 class="text-xl text-blue-400 font-semibold">🛡️ Secure Data</h3>
+        <p class="text-gray-400 mt-2">
+            Your data is stored securely using Firebase infrastructure.
+        </p>
+    </div>
+
+</section>
+
+<!-- FUTURE FEATURES -->
+<section class="bg-gray-900 py-12 text-center">
+    <h3 class="text-2xl font-bold mb-4">Coming Soon 🚀</h3>
+
+    <p class="text-gray-400">
+        NDA agreements • Role-based access • Idea encryption • Team permissions
+    </p>
+</section>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
+</body>
+</html>
